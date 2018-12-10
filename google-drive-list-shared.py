@@ -18,7 +18,7 @@ if not creds or creds.invalid:
 service = discovery.build('drive', 'v3', http=creds.authorize(Http()))
 results = service.files().list(
         pageSize=1000,
-        fields="nextPageToken, files(name, shared)").execute()
+        fields="nextPageToken, files(name, permissions, shared, modifiedTime)").execute()
 token = results.get('nextPageToken', None)
 items = results.get('files', [])
 
@@ -26,7 +26,7 @@ while token is not None:
     results = service.files().list(
             pageSize=1000,
             pageToken=token,
-            fields="nextPageToken, files(name, shared)").execute()
+            fields="nextPageToken, files(name, permissions, shared, modifiedTime)").execute()
     # Store the new nextPageToken on each loop iteration
     token = results.get('nextPageToken', None)
     # Append the next set of results to the items variable
@@ -44,5 +44,4 @@ print("The following files are shared:\n")
 # Iterate through the items list and only show files that have
 # shared set to True.
 for i in range(len(items_dict)):
-    if items_dict[i]['shared']:
-        print(items_dict[i]['name'])
+    print(items_dict[i])
