@@ -4,6 +4,8 @@ from __future__ import print_function
 import time
 import ast
 
+from pprint import pprint 
+
 from apiclient import discovery
 from httplib2 import Http
 from oauth2client import file, client, tools
@@ -57,10 +59,10 @@ while token is not None:
 # iterable list.
 items_dict = ast.literal_eval(str(items))
 
-print("You have", len(items_dict), "files in Google Drive\n")
-print("The following files are shared:\n")
+#print("You have", len(items_dict), "files in Google Drive\n")
+#print("The following files are shared:\n")
 
 # Iterate through the items list and only show files that have
 # shared set to True.
 for i in range(len(items_dict)):
-  print(items_dict[i])
+  pprint(items_dict[i])
