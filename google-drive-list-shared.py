@@ -39,7 +39,7 @@ if not creds or creds.invalid:
 service = discovery.build('drive', 'v3', http=creds.authorize(Http()))
 results = service.files().list(
     pageSize=1000,
-    fields="nextPageToken, files(name, permissions/emailAddress)").execute()
+    fields="nextPageToken, files(name, permissions/emailAddress, owners/emailAddress)").execute()
 token = results.get('nextPageToken', None)
 items = results.get('files', [])
 
@@ -47,7 +47,7 @@ while token is not None:
   results = service.files().list(
       pageSize=1000,
       pageToken=token,
-      fields="nextPageToken, files(name, permissions/emailAddress)").execute()
+      fields="nextPageToken, files(name, permissions/emailAddress, owners/emailAddress)").execute()
   # Store the new nextPageToken on each loop iteration
   token = results.get('nextPageToken', None)
   # Append the next set of results to the items variable
@@ -59,10 +59,7 @@ while token is not None:
 # iterable list.
 items_dict = ast.literal_eval(str(items))
 
-#print("You have", len(items_dict), "files in Google Drive\n")
-#print("The following files are shared:\n")
-
-# Iterate through the items list and only show files that have
-# shared set to True.
+# Iterate through and pretty print as JSON all the selected fields 
+# (name, owner email, and email addresses that files have been shared with).
 for i in range(len(items_dict)):
   pprint(items_dict[i])
