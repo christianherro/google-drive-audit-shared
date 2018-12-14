@@ -1,4 +1,4 @@
-google-drive-list-shared
+google-drive-audit-shared
 ========================
 
 So there I was, not wanting to pay for G Suite Business or Enterprise, knowing zero Python, but hoping I could audit my shared files and find what had been shared outside my company.
